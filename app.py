@@ -37,6 +37,17 @@ elif escolha == "Visualizar":
                 </button>
             ''', height=50)
 
+            # Botão para editar
+            if st.button(f"✏️ Editar '{titulo}'", key=f"editar_{doc_id}"):
+                novo_titulo = st.text_input("Novo Título", value=titulo, key=f"titulo_{doc_id}")
+                nova_descricao = st.text_area("Nova Descrição", value=descricao, key=f"desc_{doc_id}")
+                novas_tags = st.text_input("Novas Tags (separadas por vírgula)", value=", ".join(tags), key=f"tags_{doc_id}")
+                if st.button("Salvar Alterações", key=f"salvar_{doc_id}"):
+                    controller.excluir_documento(doc_id)
+                    controller.adicionar_documento(novo_titulo, nova_descricao, novas_tags.split(','))
+                    st.success("Documento atualizado com sucesso.")
+                    st.experimental_rerun()
+
 elif escolha == "Excluir":
     st.subheader("Excluir Documento")
     documentos = controller.listar_documentos()
