@@ -1,5 +1,5 @@
-
 import streamlit as st
+import streamlit.components.v1 as components
 from controller.controller import DocumentController
 
 controller = DocumentController("prog_documentacao/documentacao.db")
@@ -28,6 +28,14 @@ elif escolha == "Visualizar":
         with st.expander(titulo):
             st.markdown(descricao)
             st.markdown(f"**Tags:** {', '.join(tags)}")
+
+            # Botão copiar via HTML/JS
+            components.html(f'''
+                <textarea id="code_{doc_id}" style="display:none;">{descricao}</textarea>
+                <button onclick="navigator.clipboard.writeText(document.getElementById('code_{doc_id}').value)">
+                    📋 Copiar Descrição
+                </button>
+            ''', height=50)
 
 elif escolha == "Excluir":
     st.subheader("Excluir Documento")
